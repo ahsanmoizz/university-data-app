@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+enum Role {
+  admin
+  professor
+  student
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  username     String
+  email        String    @unique
+  passwordHash String
+  otp          String?
+  otpExpiry    DateTime?
+  isVerified   Boolean   @default(false)
+  role         Role      @default(student)
+  datasets     Dataset[]
+  createdAt    DateTime  @default(now())
+  payments     Payment[]
+  apiKeys        ApiKey[]   //  added this back relation
+  analyses  AnalysisResult[]
+}
+model Dataset {
+  id            Int      @id @default(autoincrement())
+  datasetName   String
+  rawData       String
+  cleanedData   String
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
+  finalValue    String?
+  combinedTotal Float?
+  imageUrl       String? 
+  colorCode     String?   @default("#2563eb") //  Added this
+  createdAt     DateTime  @default(now())
+}
+model DatasetMaster {
+  id            Int      @id @default(autoincrement())
+  datasetName   String   @unique
+  finalValue    String?
+  combinedTotal Float?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+model Payment {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
+  transactionId String   @unique
+  amount        Float
+  status        String   @default("success")
+  plan          String
+  createdAt     DateTime @default(now())
+}
+model AnalysisResult {
+  id             Int      @id @default(autoincrement())
+  userId         Int
+  datasetName    String
+  matchPercentage Float
+  missing        String
+  extra          String
+  result         String
+  analyzedValue  String
+  imageUrl       String?
+  createdAt      DateTime @default(now())
+
+  user           User     @relation(fields: [userId], references: [id])
+}
+model ApiKey {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  key       String   @unique
+  plan      String
+  validFrom DateTime?
+  validTo   DateTime?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
