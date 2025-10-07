@@ -6,7 +6,7 @@ import Register from "./pages/Register";
 import UploadAnalyze from "./pages/UploadAnalyze";
 import AdminPanel from "./pages/AdminPanel";
 import PaymentPage from "./pages/PaymentPage";
-import PublicDashboard from "./pages/publicDashboard";
+import PublicDashboard from "./pages/PublicDashboard";
 import ProfessorPanel from "./pages/ProfessorPanel";
 import Dashboard from "./pages/Dashboard";
 import CalendarView from "./pages/CalendarView";
