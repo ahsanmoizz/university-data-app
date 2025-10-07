@@ -1,5 +1,5 @@
 import axios from "axios";
-const API = axios.create({ baseURL: "http://student.curnce.com/api" });
+const API = axios.create({ baseURL: "https://student.curnce.com/api" });
 
 // attach token automatically
 API.interceptors.request.use((req) => {
