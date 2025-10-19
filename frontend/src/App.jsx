@@ -2,16 +2,18 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
+import EventPermutationTool from "./components/EventPermutationTool";
 import Register from "./pages/Register";
 import UploadAnalyze from "./pages/UploadAnalyze";
 import AdminPanel from "./pages/AdminPanel";
 import PaymentPage from "./pages/PaymentPage";
-import PublicDashboard from "./pages/PublicDashboard";
+import PublicDashboard from "./pages/publicDashboard";
 import ProfessorPanel from "./pages/ProfessorPanel";
 import Dashboard from "./pages/Dashboard";
 import CalendarView from "./pages/CalendarView";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword";
+import ManualEditTool from "./components/ManualEditTool";
 export default function App() {
   return (
     <div className="min-h-screen bg-white text-black">
@@ -62,6 +64,8 @@ export default function App() {
             element={
               <ProtectedRoute role="professor">
                 <ProfessorPanel />
+                <EventPermutationTool />
+                <ManualEditTool />
               </ProtectedRoute>
             }
           />
